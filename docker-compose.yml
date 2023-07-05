@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  student-ms:
+    build: .
+    image: student-ms
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mysqldb
+  mysqldb:
+    image: mysql
+    container_name: "mysqldb"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=stdn
