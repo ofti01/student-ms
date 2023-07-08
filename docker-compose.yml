@@ -2,13 +2,17 @@ version: '3.9'
 services:
   student-ms:
     build: .
+    restart: on-failure
     image: student-ms
     ports:
       - "8082:8082"
     depends_on:
       - mysqldb
   mysqldb:
-    image: mysql
+    restart: unless-stopped
+    image: mysql:latest
+    ports:
+      - "3306:3306"
     container_name: "mysqldb"
     environment:
       - MYSQL_ROOT_PASSWORD=root

@@ -28,9 +28,11 @@ public class StudentService {
 
     public StudentDto saveStudent(StudentDto studentDto){
         log.debug("Request to create Student : {}", studentDto);
-        Student student = studentRepository.findByPhone(studentDto.getPhone()).orElseThrow(
-                () -> new StudentAlreadyExist("student is already exist"));
-        return mapToDto(studentRepository.save(mapFromDto(studentDto)));
+        Student student = studentRepository.findByPhone(studentDto.getPhone()).orElse(null);
+        if(student == null)
+            return mapToDto(studentRepository.save(mapFromDto(studentDto)));
+        else
+            throw new StudentAlreadyExist("student already exist");
     }
 
     public List<StudentDto> gelAllStudent(){
